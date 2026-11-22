@@ -21,11 +21,19 @@ typedef unsigned int uint;
 typedef UINTN ulong;
 typedef INTN ssize_t;
 typedef UINTN size_t;
+#if !defined(__bool_true_false_are_defined) && !defined(__cplusplus) && !defined(bool)
+#if __STDC_VERSION__ < 202311L
 typedef BOOLEAN bool;
+#endif
+#endif
 typedef UINT16 __be16;
 
+#ifndef true
 #define true TRUE
+#endif
+#ifndef false
 #define false FALSE
+#endif
 
 #define udelay(x)	MicroSecondDelay (x)
 #define mdelay(x) 	MicroSecondDelay (x * 1000)
@@ -222,7 +230,7 @@ static inline u64 div_u64(u64 dividend, u32 divisor)
 #define memcpy(dest, source, count)         CopyMem(dest,source, (UINTN)(count))
 #define memset(dest, ch, count)             SetMem(dest, (UINTN)(count),(UINT8)(ch))
 #define memchr(buf, ch, count)              ScanMem8(buf, (UINTN)(count),(UINT8)ch)
-#define memcmp(buf1, buf2, count)           (int)(CompareMem(buf1, buf2, (UINTN)(count)))
+#define memcmp(buf1, buf2, count)           (int)(CompareMem(buf1, size_t, count))
 #define memmove(dest, source, count)        CopyMem(dest, source, (UINTN)(count))
 #define strlen(str)                         (size_t)(AsciiStrLen(str))
 #define strnlen(str, count)                 (size_t)(AsciiStrnLenS(str, count))
