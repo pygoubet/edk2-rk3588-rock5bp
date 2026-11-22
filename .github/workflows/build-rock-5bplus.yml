@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted, linux, arm64]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout upstream edk2-rk3588
         uses: actions/checkout@v4
