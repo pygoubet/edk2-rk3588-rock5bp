@@ -10,11 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout upstream edk2-rk3588
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          repository: edk2-porting/edk2-rk3588
-          ref: master
           submodules: recursive
           fetch-depth: 0
 
@@ -23,17 +21,20 @@ jobs:
         run: |
           sudo apt-get update && \
           sudo apt-get install -y \
-          acpica-tools \
-          binutils-aarch64-linux-gnu \
-          build-essential \
-          device-tree-compiler \
-          gettext \
-          git \
-          gcc-aarch64-linux-gnu \
-          libc6-dev-arm64-cross \
-          python3 \
-          python3-pyelftools \
-          uuid-dev
+            acpica-tools \
+            binutils-aarch64-linux-gnu \
+            bison \
+            build-essential \
+            device-tree-compiler \
+            flex \
+            gettext \
+            git \
+            gcc-aarch64-linux-gnu \
+            libc6-dev-arm64-cross \
+            libssl-dev \
+            python3 \
+            python3-pyelftools \
+            uuid-dev
 
       - name: Get version tag
         id: get_version_tag
@@ -53,6 +54,7 @@ jobs:
       - name: Build firmware for rock-5bplus
         shell: bash
         run: |
+          export CROSS_COMPILE="aarch64-linux-gnu-"
           export EDK2_SECUREBOOT_FLAGS=" \
               -D DEFAULT_KEYS=TRUE \
               -D PK_DEFAULT_FILE=keys/pk.cer \
