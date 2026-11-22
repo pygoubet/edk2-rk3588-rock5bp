@@ -3,7 +3,7 @@ name: Build ROCK 5B+ UEFI
 on:
   push:
     branches:
-      - main
+      - '**'
   workflow_dispatch:
 
 jobs:
